@@ -2,18 +2,16 @@ package com.paxet.evoapp.lesson8.ui.activity
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.paxet.evoapp.lesson8.R
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        //Clear shared preferences on app start
-        val pref: SharedPreferences = getSharedPreferences("searchLine", 0)
-        val editor: SharedPreferences.Editor = pref.edit()
-        editor.clear()
-        editor.apply()
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        setupActionBarWithNavController(findViewById<FragmentContainerView>(R.id.nav_host_fragment_container).findNavController())
     }
 }
