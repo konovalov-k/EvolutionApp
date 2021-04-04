@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/moviesList"
         android:name="com.paxet.evoapp.lesson8.ui.fragments.movieslist.MoviesListFragment"
-        android:label="MoviesList" >
+        android:label="@string/movies_list" >
         <action
             android:id="@+id/action_moviesList_to_movieDetails"
             app:destination="@id/movieDetails"

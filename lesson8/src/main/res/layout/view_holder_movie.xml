@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="170dp"
-        android:layout_height="296dp"
-        android:layout_margin="16dp"
-        tools:context=".ui.fragments.movieslist.MoviesListFragment">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_mask"
+    tools:context=".ui.fragments.movieslist.MoviesListFragment">
 
 
     <ImageView
         android:id="@+id/color_poster"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:contentDescription="@string/poster_desc"
         android:scaleType="fitStart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,16 +21,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/color_poster_avengers_end_game" />
 
-
-    <ImageView
-        android:id="@+id/bg"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:contentDescription="@string/mask_desc"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/bg_mask" />
 
     <TextView
         android:id="@+id/age"
@@ -42,9 +31,9 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rect_rounded"
         android:padding="4dp"
-        tools:text="@string/age_constraint"
         app:layout_constraintStart_toStartOf="@+id/color_poster"
-        app:layout_constraintTop_toTopOf="@+id/color_poster" />
+        app:layout_constraintTop_toTopOf="@+id/color_poster"
+        tools:text="@string/age_constraint" />
 
     <TextView
         android:id="@+id/genres"
@@ -53,9 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:padding="2dp"
-        tools:text="@string/genres"
         app:layout_constraintBottom_toTopOf="@+id/ratingBar"
-        app:layout_constraintStart_toStartOf="@+id/color_poster" />
+        app:layout_constraintStart_toStartOf="@+id/color_poster"
+        tools:text="@string/genres" />
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -85,27 +74,27 @@
 
     <TextView
         android:id="@+id/reviews_counter"
+        style="@style/Header6Text"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:paddingTop="10dp"
-        tools:text="@string/reviews_counter"
-        style="@style/Header6Text"
         app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
         app:layout_constraintStart_toEndOf="@+id/ratingBar"
-        app:layout_constraintTop_toTopOf="@+id/ratingBar" />
+        app:layout_constraintTop_toTopOf="@+id/ratingBar"
+        tools:text="@string/reviews_counter" />
 
     <TextView
         android:id="@+id/reviews"
+        style="@style/Header6Text"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:paddingTop="10dp"
-        style="@style/Header6Text"
         android:text="REVIEWS"
         app:layout_constraintBottom_toBottomOf="@+id/reviews_counter"
         app:layout_constraintStart_toEndOf="@+id/reviews_counter"
@@ -113,10 +102,10 @@
 
     <ImageView
         android:id="@+id/like_disabled"
-        android:contentDescription="@string/like_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/like_image"
         android:src="@drawable/like_disabled"
         app:layout_constraintBottom_toBottomOf="@+id/age"
         app:layout_constraintEnd_toEndOf="@+id/color_poster"
@@ -124,10 +113,10 @@
 
     <ImageView
         android:id="@+id/like_enabled"
-        android:contentDescription="@string/like_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/like_image"
         android:src="@drawable/like_enabled"
         app:layout_constraintBottom_toBottomOf="@+id/age"
         app:layout_constraintEnd_toEndOf="@+id/color_poster"
