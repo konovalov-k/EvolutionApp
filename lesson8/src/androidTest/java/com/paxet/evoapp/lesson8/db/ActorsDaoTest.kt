@@ -16,11 +16,11 @@ class ActorsDaoTest {
     private val db by lazy { AppDatabase.getDBInstance(appContext) }
     private lateinit var actorsDao: ActorsDao
 
-    private val movieId = "0"
+    private val actor = Actors(-99, "Test", "0")
     private val actors = listOf(
-        Actors(100, "Test", "0"),
-        Actors(101, "Test", "1"),
-        Actors(102, "Test", "1")
+        Actors(-100, "Test", "0"),
+        Actors(-101, "Test", "1"),
+        Actors(-102, "Test", "1")
     )
 
     @Before
@@ -30,30 +30,28 @@ class ActorsDaoTest {
     }
 
     @Test
-    fun checkInsert(){
-        actorsDao.checkInsert()
-    }
+    fun checkInsert() {
+        actorsDao.run {
+            insert(actor)
+            Assert.assertTrue(getAll().contains(actor))
 
-    private fun ActorsDao.checkInsert() {
-        insertAll(actors)
-        Assert.assertEquals(actors.first(), getActorsByMovieId(movieId).first { it.id == actors.first().id })
-        Assert.assertTrue(getAll().containsAll(actors))
+            insert(actors)
+            Assert.assertTrue(getAll().containsAll(actors))
+        }
+
     }
 
     @Test
     fun checkDelete(){
-        actorsDao.checkDeleteOne()
-        actorsDao.checkDeleteAll()
-    }
+        actorsDao.run {
+            delete(actor)
+            Assert.assertFalse(getAll().contains(actor))
 
-    private fun ActorsDao.checkDeleteOne(){
-        deleteActor(actors.first())
-        Assert.assertTrue(!getAll().contains(actors.first()))
-    }
+            delete(actors)
+            Assert.assertFalse(getAll().containsAll(actors))
 
-    private fun ActorsDao.checkDeleteAll(){
-        insertAll(listOf(actors.first()))
-        deleteAll(actors)
-        Assert.assertFalse(getAll().containsAll(actors))
+            delete()
+            Assert.assertTrue(getAll().isEmpty())
+        }
     }
 }
