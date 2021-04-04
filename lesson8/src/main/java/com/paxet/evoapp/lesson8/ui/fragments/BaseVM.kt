@@ -37,7 +37,7 @@ abstract class BaseVM(app: Application) : AndroidViewModel(app) {
             if (genresData.genres != null) {
                 //Store genres to DB cache
                 GenresData.genresData = genresData
-                db.genresDao.insertAll(genresData.genres.map { it?.toGenres()})
+                db.genresDao.insert(genresData.genres.map { it?.toGenres()})
             }
         }
     }

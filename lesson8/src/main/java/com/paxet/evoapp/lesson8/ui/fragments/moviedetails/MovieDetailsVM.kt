@@ -47,7 +47,7 @@ class MovieDetailsVM(app: Application) : BaseVM(app) {
     }
 
     fun writeCreditsFromDb(movieId: String, movieCredits: List<CastItem?>?) {
-        db.actorsDao.insertAll(movieCredits?.map( {it?.toActors(movieId)} ))
+        db.actorsDao.insert(movieCredits?.map( {it?.toActors(movieId)} ))
     }
 
     companion object {

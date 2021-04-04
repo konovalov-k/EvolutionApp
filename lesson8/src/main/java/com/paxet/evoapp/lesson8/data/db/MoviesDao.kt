@@ -1,9 +1,6 @@
 package com.paxet.evoapp.lesson8.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface MoviesDao {
@@ -16,9 +13,12 @@ interface MoviesDao {
     @Insert
     fun insertMovie(movie: Movies): Long
 
-    @Query("DELETE FROM movies WHERE id = :movieId")
-    fun deleteMovie(movieId: Long)
+    @Delete
+    fun delete(movie: Movies)
 
-    @Query("DELETE FROM movies")
-    fun deleteAll()
+    @Delete
+    fun delete(movies: List<Movies>)
+
+    @Query ("DELETE FROM movies")
+    fun delete()
 }
