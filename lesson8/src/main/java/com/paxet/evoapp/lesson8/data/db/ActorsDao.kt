@@ -12,11 +12,19 @@ interface ActorsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @PrimaryKey(autoGenerate = true)
-    fun insertAll(actors: List<Actors?>?)
+    fun insert(actors: List<Actors?>?)
+
+    @Insert
+    @PrimaryKey(autoGenerate = true)
+    fun insert(actor: Actors)
 
     @Delete
-    fun deleteActor(actor: Actors)
+    fun delete(actor: Actors)
 
     @Delete
-    fun deleteAll(actors: List<Actors>)
+    fun delete(actors: List<Actors>)
+
+    @Query("DELETE FROM actors")
+    fun delete()
+
 }

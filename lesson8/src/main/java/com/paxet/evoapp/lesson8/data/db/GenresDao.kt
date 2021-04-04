@@ -1,24 +1,24 @@
 package com.paxet.evoapp.lesson8.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface GenresDao {
     @Query("SELECT * FROM genres")
     fun getAll(): List<Genres>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(genres: List<Genres?>)
-
     @Insert
-    fun insertGenre(genre: Genres): Long
+    fun insert(genre: Genres): Long
 
-    @Query("DELETE FROM genres WHERE id = :genreId")
-    fun deleteGenre(genreId: Long)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(genres: List<Genres?>)
+
+    @Delete
+    fun delete(genre: Genres)
+
+    @Delete
+    fun delete(genres: List<Genres>)
 
     @Query("DELETE FROM genres")
-    fun deleteAll()
+    fun delete()
 }
