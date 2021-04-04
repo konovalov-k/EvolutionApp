@@ -1,9 +1,6 @@
 package com.paxet.evoapp.lesson8.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ActorsDao {
@@ -14,5 +11,12 @@ interface ActorsDao {
     fun getActorsByMovieId(movieId: String): List<Actors>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @PrimaryKey(autoGenerate = true)
     fun insertAll(actors: List<Actors?>?)
+
+    @Delete
+    fun deleteActor(actor: Actors)
+
+    @Delete
+    fun deleteAll(actors: List<Actors>)
 }
