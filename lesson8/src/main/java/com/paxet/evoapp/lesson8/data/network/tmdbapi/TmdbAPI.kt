@@ -5,37 +5,30 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TmdbAPI {
-
     @GET("configuration")
-    suspend fun getAPIConfiguration(
+    fun getAPIConfiguration(
         @Query("api_key") apiKey : String
     ) : ConfigurationAPI
 
     @GET("movie/now_playing")
-    suspend fun getNowPlaying(
+    fun getNowPlaying(
         @Query("api_key") apiKey : String
     ) : MoviesListAPI
 
-    @GET("search/movie")
-    suspend fun searchMovies(
-            @Query("query") query : String,
-            @Query("api_key") apiKey : String
-    ) : MoviesListAPI
-
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(
+    fun getMovieDetails(
         @Path("movie_id")  movieId : String,
         @Query("api_key") apiKey : String
     ) : MovieDetailsAPI
 
     @GET("movie/{movie_id}/credits")
-    suspend fun getMovieCredits(
+    fun getMovieCredits(
         @Path("movie_id")  movieId : String,
         @Query("api_key") apiKey : String
     ) : MovieCreditsAPI
 
     @GET("genre/movie/list")
-    suspend fun getGenres(
+    fun getGenres(
         @Query("api_key") apiKey : String
     ) : GenresAPI
 }

@@ -22,7 +22,6 @@ class MoviesListVM(app: Application) : BaseVM(app) {
     }
 
     fun initMoviesList() {
-
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 //Get genres from network or DB cache
@@ -55,29 +54,6 @@ class MoviesListVM(app: Application) : BaseVM(app) {
 
     fun writeMoviesToDb(remoteMovies: List<MovieItemAPI>) {
         db.moviesDao.insertAll(remoteMovies.map{ it.toMovies() })
-    }
-
-    fun searchMoviesList(query: String) {
-        coroutineScope.launch(exceptionHandler) {
-            val moviesNowPlaying = tmdbAPI.searchMovies(query, apiKey).results ?: listOf()
-            _moviesListLD.postValue(moviesNowPlaying as List<MovieItemAPI>?)
-        }
-    }
-
-    var timer = Timer()
-    val DELAY: Long = 1000L
-    fun initTimer(searchLine: String) {
-        timer.cancel()
-        timer = Timer()
-        timer.schedule(object : TimerTask() {
-            override fun run() {
-                if(searchLine == "") {
-                    initMoviesList()
-                } else {
-                    searchMoviesList(searchLine)
-                }
-            }
-        }, DELAY)
     }
 
     companion object {
