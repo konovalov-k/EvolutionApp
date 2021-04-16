@@ -1,6 +1,7 @@
 package com.paxet.evoapp.lesson8.ui.fragments.moviedetails
 
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -14,13 +15,9 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class MovieDetailsVM(app: Application) : BaseVM(app) {
+class MovieDetailsVM(app: Context) : BaseVM(app) {
     private val _movieLD = MutableLiveData<Pair<MovieDetailsAPI?, List<CastItem?>>>()
     val movieLD : LiveData<Pair<MovieDetailsAPI?, List<CastItem?>>> get() = _movieLD
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.e(TAG, "Coroutine exception, scope active:${coroutineScope.isActive}", throwable)
-    }
 
     fun initMovie(arguments: Bundle?) {
         val movieId = arguments?.get("movieId").toString()
