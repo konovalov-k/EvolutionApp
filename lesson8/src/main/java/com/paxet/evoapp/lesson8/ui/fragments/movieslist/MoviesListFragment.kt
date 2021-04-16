@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paxet.evoapp.lesson8.R
 
 class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
-    private val viewModel : MoviesListVM by viewModels()
+    private val viewModel : MoviesListVM by lazy{MoviesListVM(requireContext())}
     private val moviesListAdapter by lazy { MoviesListAdapter(findNavController()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
