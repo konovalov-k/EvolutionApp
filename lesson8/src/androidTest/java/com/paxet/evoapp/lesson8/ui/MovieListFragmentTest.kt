@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -37,10 +38,11 @@ import com.paxet.evoapp.lesson8.ui.fragments.actors.ActorsAdapter
 @LargeTest
 class MovieListFragmentTest {
     private lateinit var navController: NavController
+    private lateinit var activity: ActivityScenario<MainActivity>
 
     @Before
     fun launchActivity(){
-        val activity = launch(MainActivity::class.java)
+        activity = launch(MainActivity::class.java)
         activity.onActivity {
             navController = it.findViewById<FragmentContainerView>(R.id.nav_host_fragment_container).findNavController()
         }
@@ -103,6 +105,10 @@ class MovieListFragmentTest {
                )
 
            delay(3_000)
+
+           activity.onActivity {
+               it.finish()
+           }
        }
    }
 }
