@@ -19,7 +19,7 @@ import com.paxet.evoapp.lesson8.data.network.NetworkModule
 import com.paxet.evoapp.lesson8.ui.fragments.actors.ActorsAdapter
 
 class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
-    val viewModel : MovieDetailsVM by viewModels()
+    val viewModel : MovieDetailsVM by lazy{ MovieDetailsVM(requireContext())}
     val actorsAdapter = ActorsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
