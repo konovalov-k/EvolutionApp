@@ -12,6 +12,7 @@ import com.paxet.evoapp.lesson8.data.network.tmdbapi.MovieDetailsAPI
 import com.paxet.evoapp.lesson8.data.network.tmdbapi.toActors
 import com.paxet.evoapp.lesson8.ui.fragments.BaseVM
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.async
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -19,9 +20,8 @@ class MovieDetailsVM(app: Context) : BaseVM(app) {
     private val _movieLD = MutableLiveData<Pair<MovieDetailsAPI?, List<CastItem?>>>()
     val movieLD : LiveData<Pair<MovieDetailsAPI?, List<CastItem?>>> get() = _movieLD
 
-    fun initMovie(arguments: Bundle?) {
-        val movieId = arguments?.get("movieId").toString()
-        coroutineScope.launch(exceptionHandler) {
+    fun initMovie(arguments: Bundle?) = coroutineScope.async(exceptionHandler) {
+            val movieId = arguments?.get("movieId").toString()
             //Get movie credits (actors) from DB cache
             var movieCredits: List<CastItem?> = readCreditsFromDb(movieId)
             var movieDetails: MovieDetailsAPI? = null
@@ -37,13 +37,12 @@ class MovieDetailsVM(app: Context) : BaseVM(app) {
                 print(e.message)
             }
         }
-    }
 
-    fun readCreditsFromDb(movieId: String): List<CastItem?> {
+    private fun readCreditsFromDb(movieId: String): List<CastItem?> {
         return db.actorsDao.getActorsByMovieId(movieId).map( {it.toCastItem()} )
     }
 
-    fun writeCreditsFromDb(movieId: String, movieCredits: List<CastItem?>?) {
+    private fun writeCreditsFromDb(movieId: String, movieCredits: List<CastItem?>?) {
         db.actorsDao.insert(movieCredits?.map( {it?.toActors(movieId)} ))
     }
 
