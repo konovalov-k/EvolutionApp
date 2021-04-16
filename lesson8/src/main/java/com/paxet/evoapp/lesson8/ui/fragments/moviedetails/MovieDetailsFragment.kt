@@ -56,10 +56,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
                         .load("${NetworkModule.baseImageUrl}/w342/${backdropPath}")
                         .into(bw_poster)
                 }
-                val colorMatrix = ColorMatrix()
-                colorMatrix.setSaturation(0f)
-                val filter = ColorMatrixColorFilter(colorMatrix)
-                bw_poster.setColorFilter(filter)
+                bw_poster.colorFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
 
                 age.text = if (adult == true) "18+" else "0+"
                 name.text = title ?: ""

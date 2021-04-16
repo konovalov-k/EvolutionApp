@@ -1,11 +1,7 @@
 package com.paxet.evoapp.lesson8.ui.fragments.movieslist
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -27,7 +23,7 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
 
         viewModel.initConfiguration()
         viewModel.initGenres()
-        viewModel.initMoviesList()
+        viewModel.initMoviesListAsync()
     }
 
     private fun initObserver() {

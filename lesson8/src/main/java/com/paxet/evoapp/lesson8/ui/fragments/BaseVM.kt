@@ -1,8 +1,10 @@
 package com.paxet.evoapp.lesson8.ui.fragments
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.paxet.evoapp.lesson8.data.db.AppDatabase
 import com.paxet.evoapp.lesson8.data.db.toGenresItem
 import com.paxet.evoapp.lesson8.data.network.GenresData
@@ -11,18 +13,14 @@ import com.paxet.evoapp.lesson8.data.network.tmdbapi.GenresAPI
 import com.paxet.evoapp.lesson8.data.network.tmdbapi.toGenres
 import kotlinx.coroutines.*
 
-abstract class BaseVM(app: Application) : AndroidViewModel(app) {
+abstract class BaseVM(context: Context) : ViewModel() {
     val coroutineScope = CoroutineScope(Job() + Dispatchers.IO)
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Log.e(TAG, "Coroutine exception, scope active:${throwable.localizedMessage}", throwable)
     }
 
-    val tmdbAPI by lazy {
-        NetworkModule.tmdbAPI
-    }
-    val db by lazy {
-        AppDatabase.getDBInstance(app)
-    }
+    val tmdbAPI by lazy { NetworkModule.tmdbAPI }
+    val db by lazy(Dispatchers.IO) { AppDatabase.getDBInstance(context) }
 
     fun initConfiguration() {
         coroutineScope.launch(exceptionHandler) {

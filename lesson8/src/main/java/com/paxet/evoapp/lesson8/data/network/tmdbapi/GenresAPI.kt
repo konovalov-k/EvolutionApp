@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GenresAPI(
-
 	@SerialName("genres")
 	val genres: List<GenresItem?>? = null
 )

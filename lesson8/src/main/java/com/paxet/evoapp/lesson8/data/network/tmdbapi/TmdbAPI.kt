@@ -5,7 +5,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TmdbAPI {
-
     @GET("configuration")
     suspend fun getAPIConfiguration(
         @Query("api_key") apiKey : String
@@ -14,12 +13,6 @@ interface TmdbAPI {
     @GET("movie/now_playing")
     suspend fun getNowPlaying(
         @Query("api_key") apiKey : String
-    ) : MoviesListAPI
-
-    @GET("search/movie")
-    suspend fun searchMovies(
-            @Query("query") query : String,
-            @Query("api_key") apiKey : String
     ) : MoviesListAPI
 
     @GET("movie/{movie_id}")

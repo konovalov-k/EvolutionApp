@@ -8,7 +8,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-@LargeTest
 class GenresDaoTest {
     private lateinit var appContext: Context
     private val db by lazy { AppDatabase.getDBInstance(appContext) }

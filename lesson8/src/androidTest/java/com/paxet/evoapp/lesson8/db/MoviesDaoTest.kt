@@ -15,7 +15,6 @@ class MoviesDaoTest {
     private val db by lazy { AppDatabase.getDBInstance(appContext) }
     private lateinit var moviesDao: MoviesDao
 
-    private val movieId = "0"
     private val movie = Movies(-99, "Test", "0", overview = "")
     private val movies = listOf(
         Movies(-100, "Test", "0", overview = ""),
