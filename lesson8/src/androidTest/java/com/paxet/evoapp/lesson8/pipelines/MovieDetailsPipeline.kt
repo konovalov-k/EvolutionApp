@@ -1,24 +1,26 @@
 package com.paxet.evoapp.lesson8.pipelines
 
 import android.content.Context
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.filters.LargeTest
 import com.paxet.evoapp.lesson8.data.db.AppDatabase
 import com.paxet.evoapp.lesson8.data.db.MoviesDao
 import com.paxet.evoapp.lesson8.data.network.NetworkModule
+import com.paxet.evoapp.lesson8.data.network.tmdbapi.CastItem
 import com.paxet.evoapp.lesson8.data.network.tmdbapi.MovieItemAPI
-import com.paxet.evoapp.lesson8.data.network.tmdbapi.toMovies
+import com.paxet.evoapp.lesson8.data.network.tmdbapi.toActors
 import com.paxet.evoapp.lesson8.ui.fragments.BaseVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-@LargeTest
-class MovieListPipeline {
+class MovieDetailsPipeline {
     //DB
     private lateinit var appContext: Context
     private val db by lazy { AppDatabase.getDBInstance(appContext) }
@@ -27,30 +29,38 @@ class MovieListPipeline {
     private val tmdbAPI by lazy { NetworkModule.tmdbAPI }
     private val apiKey = "c9e69769a0b528e00cf6da3c3199eb0e"
 
+    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+
+    @Before
+    fun getApi() {
+        Dispatchers.setMain(mainThreadSurrogate)
+    }
+
     @Before
     fun createDb() {
         appContext = ApplicationProvider.getApplicationContext<Context>()
         moviesDao = db.moviesDao
     }
 
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
+        mainThreadSurrogate.close()
+    }
+
     @Test
-    fun checkNowPlayingGetAndStore() {
+    fun checkMovieDetails(){
         runBlocking {
             launch(Dispatchers.IO) {
                 val remoteMovies: List<MovieItemAPI> = tmdbAPI.getNowPlaying(apiKey).results ?: listOf()
                 Assert.assertTrue(remoteMovies.isNotEmpty())
-                Log.d("Test", "Movie:" + remoteMovies[0].title)
-                if (remoteMovies.isNotEmpty()) writeMoviesToDb(remoteMovies)
+                val details = tmdbAPI.getMovieDetails(remoteMovies[0].id.toString(), BaseVM.apiKey)
+                Assert.assertTrue(details.title?.isNotEmpty() ?: false)
             }
         }
     }
 
-    private fun writeMoviesToDb(remoteMovies: List<MovieItemAPI>) {
-        db.moviesDao.run {
-            delete()
-            db.moviesDao.insertAll(remoteMovies.map { it.toMovies() })
-        }
-        val movies = db.moviesDao.getAll()
-        Assert.assertTrue(movies.isNotEmpty())
+    fun writeCreditsFromDb(movieId: String, movieCredits: List<CastItem?>?) {
+        db.actorsDao.insert(movieCredits?.map( {it?.toActors(movieId)} ))
     }
 }
