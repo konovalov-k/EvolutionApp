@@ -7,7 +7,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.paxet.evoapp.lesson8.data.network.tmdbapi.MovieItemAPI
 import com.paxet.evoapp.lesson8.ui.fragments.BaseVM
 import com.paxet.evoapp.lesson8.ui.fragments.moviedetails.MovieDetailsVM
-import com.paxet.evoapp.lesson8.ui.fragments.movieslist.MoviesListVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -27,17 +26,20 @@ class MovieDetailsVMTest {
     fun checkDetailsVM(){
         runBlocking {
             launch(Dispatchers.IO) {
+                var msg = ""
                 val remoteMovies: List<MovieItemAPI> = viewmodel.tmdbAPI.getNowPlaying(BaseVM.apiKey).results ?: listOf()
-                Assert.assertTrue(remoteMovies.isNotEmpty())
+                Assert.assertFalse("Remote movies is empty", remoteMovies.isEmpty())
 
                 val bundle = Bundle().apply { putInt("movieId", remoteMovies[0].id ?: -1) }
+                Assert.assertFalse("Wrong id in first remote movie",remoteMovies[0].id == -1)
                 viewmodel.initMovie(bundle).await()
 
-                Assert.assertTrue(viewmodel.movieLD.value?.second?.isNotEmpty() ?: false)
+                Assert.assertFalse("Movie details is null",viewmodel.movieLD.value == null)
+                Assert.assertFalse("Movie details second is null",viewmodel.movieLD.value?.second == null)
 
-                var msg = ""
                 viewmodel.movieLD.value?.run {
-                    Assert.assertTrue(first?.title?.isNotEmpty() ?: false)
+                    Assert.assertFalse("Second is empty", second.isEmpty())
+                    Assert.assertFalse("Details: Title is empty", first?.title?.isEmpty() ?: true)
                     msg = first?.title ?: ""
                 }
 
